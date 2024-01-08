@@ -1,10 +1,10 @@
 import _ from 'lodash'
 
-let translateServerErrors = (errors) => {
+const translateServerErrors = (errors) => {
   let serializedErrors = {}
 
   Object.keys(errors).forEach((key) => {
-    const messages = errors[key].map((error) => {
+    errors[key].forEach((error) => {
       const field = _.startCase(key)
       serializedErrors = {
         ...serializedErrors,

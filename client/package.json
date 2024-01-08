@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "build": "./node_modules/.bin/webpack",
+    "dev": "./node_modules/.bin/webpack-dev-server"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "name": "burger-bonanza-reducer-challenge-client",
+  "version": "0.0.1",
+  "engines": {
+    "node": "^16.18"
+  },
+  "devDependencies": {
+    "@hot-loader/react-dom": "~16.13",
+    "webpack-dev-server": "~3.11"
+  }
+}

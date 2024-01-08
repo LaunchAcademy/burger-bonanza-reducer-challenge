@@ -1,5 +1,6 @@
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
+
 import config from "../config.js";
 
 const getClientIndexPath = () => {

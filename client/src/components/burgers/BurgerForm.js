@@ -1,56 +1,48 @@
-import React, { useState } from "react"
+import React, { useReducer } from "react"
+
+import burgerReducer from "../../reducers/burgerReducer"
+
+import OptionCollection from "./OptionCollection"
 
 const BurgerForm = (props) => {
-  const [order, setOrder] = useState({
+  const initialOrder = {
     type: "",
     toppings: [],
     isGlutenFree: "",
     side: ""
-  })
+  }
+  const [order, dispatch] = useReducer(burgerReducer, initialOrder)
 
   const handleChange = (event) => {
-    setOrder({
-      ...order,
-      [event.currentTarget.name]: event.currentTarget.value
+    dispatch({
+      type: "orderChange",
+      name: event.currentTarget.name,
+      value: event.currentTarget.value
     })
   }
 
   const handleCheckChange = (event) => {
-    const toppingChoice = event.currentTarget.value
-    if (order.toppings.includes(toppingChoice)) {
-      const filteredToppings = order.toppings.filter((topping) => topping !== toppingChoice)
-      setOrder({
-        ...order,
-        toppings: filteredToppings
-      })
-    } else {
-      setOrder({
-        ...order,
-        toppings: [...order.toppings, toppingChoice]
-      })
-    }
+    dispatch({
+      type: "orderCheckboxChange",
+      value: event.currentTarget.value
+    })
+  }
+
+  const clearForm = () => {
+    dispatch({
+      type: "resetOrderForm",
+      initialOrder: initialOrder
+    })
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
     console.log(order)
-  }
-
-  const clearForm = () => {
-    setOrder({
-      type: "",
-      toppings: [],
-      isGlutenFree: "",
-      side: ""
-    })
+    clearForm()
   }
 
   const burgerTypes = ["", "medium rare", "medium", "medium well", "well done", "chicken", "vegan"]
-  const burgerTypeOptions = burgerTypes.map((type) => {
-    return (
-      <option key={type} value={type}>{type}</option>
-    )
-  })
+  const sides = ["", "fries", "potatoes", "salad", "veggies"]
 
   const toppings = ["cheese", "pickles", "onions", "lettuce"]
   const toppingOptions = toppings.map((topping) => {
@@ -68,13 +60,6 @@ const BurgerForm = (props) => {
     )
   })
 
-  const sides = ["", "fries", "potatoes", "salad", "veggies"]
-  const sideOptions = sides.map((side) => {
-    return (
-      <option key={side} value={side}>{side}</option>
-    )
-  })
-
   return (
     <div className="callout">
       <h3>Burger Order</h3>
@@ -86,7 +71,7 @@ const BurgerForm = (props) => {
             value={order.type}
             onChange={handleChange}
           >
-            {burgerTypeOptions}
+            <OptionCollection options={burgerTypes} />
           </select>
         </label>
 
@@ -129,15 +114,14 @@ const BurgerForm = (props) => {
             value={order.side}
             onChange={handleChange}
           >
-            {sideOptions}
+            <OptionCollection options={sides} />
           </select>
         </label>
 
         <div className="button-group">
           <input type="submit" value="Place Order" className="button" />
-          <button type="button" onClick={clearForm} className="button">Clear Form</button>
+          <button type="button" onClick={clearForm} className="button alert">Clear Form</button>
         </div>
-
       </form>
     </div>
   )

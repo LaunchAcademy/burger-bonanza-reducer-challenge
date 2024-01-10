@@ -5,17 +5,17 @@ import burgerReducer from "../../reducers/burgerReducer"
 import OptionCollection from "./OptionCollection"
 
 const BurgerForm = (props) => {
-  const initialOrder = {
+  const initialBurger = {
     type: "",
     toppings: [],
     isGlutenFree: "",
     side: ""
   }
-  const [order, dispatch] = useReducer(burgerReducer, initialOrder)
+  const [burger, dispatch] = useReducer(burgerReducer, initialBurger)
 
   const handleChange = (event) => {
     dispatch({
-      type: "orderChange",
+      type: "burgerChange",
       name: event.currentTarget.name,
       value: event.currentTarget.value
     })
@@ -23,21 +23,21 @@ const BurgerForm = (props) => {
 
   const handleCheckChange = (event) => {
     dispatch({
-      type: "orderCheckboxChange",
+      type: "burgerCheckboxChange",
       value: event.currentTarget.value
     })
   }
 
   const clearForm = () => {
     dispatch({
-      type: "resetOrderForm",
-      initialOrder: initialOrder
+      type: "resetBurgerForm",
+      initialBurger: initialBurger
     })
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log(order)
+    props.addBurgerToOrder(burger)
     clearForm()
   }
 
@@ -52,7 +52,7 @@ const BurgerForm = (props) => {
           id={topping}
           type="checkbox"
           value={topping}
-          checked={order.toppings.includes(topping)}
+          checked={burger.toppings.includes(topping)}
           onChange={handleCheckChange}
         />
         {topping}
@@ -61,66 +61,68 @@ const BurgerForm = (props) => {
   })
 
   return (
-    <div className="callout">
-      <h3>Burger Order</h3>
+    <div className="cell medium-6 callout">
+      <h3 className="text-center">Burger Order</h3>
       <form onSubmit={handleSubmit} className="callout primary">
         <label htmlFor="type">Type of Burger
           <select
             id="type"
             name="type"
-            value={order.type}
+            value={burger.type}
             onChange={handleChange}
           >
             <OptionCollection options={burgerTypes} />
           </select>
         </label>
 
-        <div className="callout">
-          <p>Toppings</p>
-          {toppingOptions}
-        </div>
+        <div className="grid-x grid-margin-x">
+          <div className="cell small-6 callout">
+            <p>Toppings</p>
+            {toppingOptions}
+          </div>
 
-        <div className="callout">
-          <p>Type of Roll</p>
-          <label htmlFor="hawaiian">
-            <input 
-              type="radio"
-              id="hawaiian"
-              name="isGlutenFree"
-              value="false"
-              checked={order.isGlutenFree === "false"}
-              onChange={handleChange}
-            />
-            Hawaiian Roll
-          </label>
+          <div className="cell small-6 callout">
+            <p>Type of Roll</p>
+            <label htmlFor="hawaiian">
+              <input 
+                type="radio"
+                id="hawaiian"
+                name="isGlutenFree"
+                value="false"
+                checked={burger.isGlutenFree === "false"}
+                onChange={handleChange}
+              />
+              Hawaiian Roll
+            </label>
 
-          <label htmlFor="gluten-free">
-            <input 
-              type="radio"
-              id="gluten-free"
-              name="isGlutenFree"
-              value="true"
-              checked={order.isGlutenFree === "true"}
-              onChange={handleChange}
-            />
-            Gluten-Free Roll
-          </label>
+            <label htmlFor="gluten-free">
+              <input 
+                type="radio"
+                id="gluten-free"
+                name="isGlutenFree"
+                value="true"
+                checked={burger.isGlutenFree === "true"}
+                onChange={handleChange}
+              />
+              Gluten-Free Roll
+            </label>
+          </div>
         </div>
 
         <label htmlFor="side">Sides
           <select
             id="side"
             name="side"
-            value={order.side}
+            value={burger.side}
             onChange={handleChange}
           >
             <OptionCollection options={sides} />
           </select>
         </label>
 
-        <div className="button-group">
-          <input type="submit" value="Place Order" className="button" />
-          <button type="button" onClick={clearForm} className="button alert">Clear Form</button>
+        <div className="button-group align-center">
+          <input type="submit" value="Add burger" className="button" />
+          <button type="button" onClick={clearForm} className="button alert">Reset burger</button>
         </div>
       </form>
     </div>

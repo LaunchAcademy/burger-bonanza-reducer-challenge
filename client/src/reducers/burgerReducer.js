@@ -1,29 +1,29 @@
-const burgerReducer = (burgerOrder, action) => {
+const burgerReducer = (burger, action) => {
   switch (action.type) {
-    case "orderChange": {
+    case "burgerChange": {
       return {
-        ...burgerOrder,
+        ...burger,
         [action.name]: action.value
       }
     }
-    case "orderCheckboxChange": {
+    case "burgerCheckboxChange": {
       const toppingChoice = action.value
-      if (burgerOrder.toppings.includes(toppingChoice)) {
-        const filteredToppings = burgerOrder.toppings.filter((topping) => topping !== toppingChoice)
+      if (burger.toppings.includes(toppingChoice)) {
+        const filteredToppings = burger.toppings.filter((topping) => topping !== toppingChoice)
         return {
-          ...burgerOrder,
+          ...burger,
           toppings: filteredToppings
         }
       } else {
         return {
-          ...burgerOrder,
-          toppings: [...burgerOrder.toppings, toppingChoice]
+          ...burger,
+          toppings: [...burger.toppings, toppingChoice]
         }
       }
     }
-    case "resetOrderForm": {
+    case "resetBurgerForm": {
       return {
-        ...action.initialOrder
+        ...action.initialBurger
       }
     }
     default: {

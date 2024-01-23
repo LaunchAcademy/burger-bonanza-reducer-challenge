@@ -49,6 +49,7 @@ const BurgerForm = (props) => {
       type: "resetErrors",
       errors: {},
     });
+    
     const validationErrors = validateOrderData(burger, props.orderName);
     if (Object.keys(validationErrors).length > 0) {
       burgerErrorDispatch({

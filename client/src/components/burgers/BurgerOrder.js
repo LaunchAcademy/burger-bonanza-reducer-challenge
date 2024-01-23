@@ -32,7 +32,6 @@ const BurgerOrder = (props) => {
   const submitBurgerOrder = async (burgerOrder) => {
     const returnedBurger = await postBurgerOrder(burgerOrder);
     if (returnedBurger.order) {
-      // setOrderConfirmation(true);
       confirmationDispatch({ type: "orderConfirmed" });
       orderDispatch({
         type: "resetOrder",
